@@ -117,7 +117,6 @@
 			$('input[name=sex][value="'+node.sex+'"]').prop('checked', true);
 		else
 			$('input[name=sex]').prop('checked', false);
-		update_cancer_by_sex(node);
 
 		if(!('status' in node))
 			node.status = 0;
@@ -238,10 +237,22 @@
 			delete person.yob;
 		}
 
+		// to change proband
+		is_proband = $('#id_proband').is(':checked');
+		if(is_proband){
+			pedigree_util.setProband(newdataset, name, is_proband);
+		} else {
+			$.each(newdataset, function(){
+				if(this.name == name)
+					delete this.proband;
+			})
+		}
+
 		// current status: 0 = alive, 1 = dead
-		var status = $('#id_status').find("input[type='radio']:checked");
-		if(status.length > 0){
-			person.status = status.val();
+		if($('#dead').is(':checked')){
+			person.status = 1;
+		} else {
+			person.status = 0;
 		}
 
 		// booleans switches
@@ -250,7 +261,6 @@
 			var attr = switches[iswitch];
 			var s = $('#id_'+attr);
 			if(s.length > 0){
-				console.log(s.is(":checked"));
 				if(s.is(":checked"))
 					person[attr] = true;
 				else
@@ -262,11 +272,17 @@
 		var sex = $('#id_sex').find("input[type='radio']:checked");
 		if(sex.length > 0){
 			person.sex = sex.val();
-			update_cancer_by_sex(person);
 		}
 
 		// Ashkenazi status, 0 = not Ashkenazi, 1 = Ashkenazi
 		update_ashkn(newdataset);
+
+		// ^above doesn't save the ashkenazi status? This function MAY get redundant when above is used
+		if($('#id_ashkenazi').is(':checked'))
+			person.ashkenazi = 1;
+		else {
+			person.ashkenazi = 0;
+		}
 
 		if($('#id_approx').is(':checked')) // approximate diagnosis age
 			person.approx_diagnosis_age = true;
@@ -275,7 +291,7 @@
 
 		$("#person_details select[name*='_diagnosis_age']:visible, #person_details input[type=text]:visible, #person_details input[type=number]:visible").each(function() {
 			var name = (this.name.indexOf("_diagnosis_age")>-1 ? this.name.substring(0, this.name.length-2): this.name);
-
+			
 			if($(this).val()) {
 				var val = $(this).val();
 				if(name.indexOf("_diagnosis_age") > -1 && $("#id_approx").is(':checked'))
@@ -284,30 +300,30 @@
 			} else {
 				delete person[name];
 			}
-        });
+		});
+		
 
-		// cancer checkboxes
-		$('#person_details input[type="checkbox"][name$="cancer"],input[type="checkbox"][name$="cancer2"]').each(function() {
+		// disease checkboxes
+		$('.disease-checkbox').each(function() {
 			if(this.checked)
 				person[$(this).attr('name')] = true;
 			else
 				delete person[$(this).attr('name')];
 		});
 
-		// pathology tests
-		$('#person_details select[name$="_bc_pathology"]').each(function() {
-			if($(this).val() !== '-') {
-				person[$(this).attr('name')] = $(this).val();
+		// genetic test
+		$('#person_details select[id$="_gene_test_type"]').each(function() {
+			if($(this).val() !== '0') {
+				person[$(this).attr('name')] = {'type': $(this).val(), 'result': $("#id_" + $(this).attr('name') + "_result").val()};
 			} else {
 				delete person[$(this).attr('name')];
 			}
 		});
 
-		// genetic tests
-		$('#person_details select[name$="_gene_test"]').each(function() {
+		// pathology tests
+		$('#person_details select[id$="_bc_pathology"]').each(function() {
 			if($(this).val() !== '-') {
-				var tres = $('select[name="'+$(this).attr('name')+'_result"]');
-				person[$(this).attr('name')] = {'type': $(this).val(), 'result': $(tres).val()};
+				person[$(this).attr('name')] = $(this).val();
 			} else {
 				delete person[$(this).attr('name')];
 			}
@@ -347,20 +363,6 @@
 			$("[id$='_diagnosis_age_1']").hide();
 		}
     };
-
-    // males should not have ovarian cancer and females should not have prostate cancer
-    function update_cancer_by_sex(node) {
-		$('#cancer .row').show();
-		if(node.sex === 'M') {
-			delete node.ovarian_cancer_diagnosis_age;
-			$("[id^='id_ovarian_cancer_diagnosis_age']").closest('.row').hide();
-			$("[id^='id_breast_cancer2_diagnosis_age']").prop('disabled', true);
-		} else if(node.sex === 'F') {
-			delete node.prostate_cancer_diagnosis_age;
-			$("[id^='id_prostate_cancer_diagnosis_age']").closest('.row').hide();
-			$("[id^='id_breast_cancer2_diagnosis_age']").prop('disabled', false);
-		}
-    }
 
     // round to 5, 15, 25, 35 ....
     function round5(x1) {

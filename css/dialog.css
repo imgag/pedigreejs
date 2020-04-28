@@ -1,0 +1,35 @@
+.ui-widget {
+    background: white;
+}
+
+.ui-widget-content {
+    color: #222222;
+}
+
+.ui-dialog {
+    outline: 0 none;
+    padding: 0 !important;
+    position: absolute;
+    top: 0;
+}
+
+.ui-dialog .ui-dialog-content {
+    background: none repeat scroll 0 0 transparent;
+    border: 0 none;
+    overflow-x: hidden;
+    position: relative;
+    padding: 0.1em !important;
+    margin: 0;
+}
+
+.ui-dialog .ui-widget-header {
+    background: rgb(180, 200, 230);
+    color: rgb(20, 20, 20);
+    font-weight: bolder;
+}
+
+.ui-dialog .ui-dialog-titlebar {
+    padding: 0.1em .5em;
+    position: relative;
+    font-size: 1em;
+}

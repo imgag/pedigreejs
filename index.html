@@ -1,376 +1,152 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width,maximum-scale=2">
 
-	<link href="https://code.jquery.com/ui/1.12.1/themes/cupertino/jquery-ui.css" rel="stylesheet" type="text/css" media="all" />
-	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css" media="all" />
-	<link rel="stylesheet" href="dist/css/pedigreejs.min.css" />
+	<link href="https://code.jquery.com/ui/1.12.1/themes/cupertino/jquery-ui.css" rel="stylesheet" type="text/css"
+		media="all" crossorigin="anonymous" />
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
+		crossorigin="anonymous">
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet"
+		type="text/css" media="all" crossorigin="anonymous" />
+	<link rel="stylesheet" href="./css/pedigreejs.css" />
+	<link rel="stylesheet" href="./css/dialog.css" />
 
-	<style>
-		a[href^="http://"][target=_blank]:after, 
-		a[href^="https://"][target=_blank]:after, 
-		a[href^="ftp://"][target=_blank]:after {
-		  content: "\f08e";
-		  font-family: FontAwesome;
-		  font-weight: normal;
-		  font-style: normal;
-		  display: inline-block;
-		  text-decoration: none;
-		  padding: 0px 2px;
-		  display:inline;
-		}
-
-		.fa-rotate-45 {
-			-webkit-transform:rotate(45deg); 
-			-moz-transform:rotate(45deg); 
-			-ms-transform:rotate(45deg); 
-			-o-transform:rotate(45deg);
-			transform:rotate(45deg);
-		}
-	</style>
-
-	<script src="https://code.jquery.com/jquery-3.2.0.min.js"></script> 
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="https://unpkg.com/d3@4.13.0/build/d3.min.js"></script>
-	<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
-	<!-- <script src="dist/js/pedigreejs.min.js"></script> -->
-    <script src="js/io.js"></script>
-    <script src="js/pedigree_form.js"></script>
-    <script src="js/pedigree.js"></script>
-    <script src="js/undo_redo_refresh.js"></script>
-    <script src="js/widgets.js"></script>
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" crossorigin="anonymous"></script>
+	<script type="text/javascript" src="https://unpkg.com/d3@4.13.0/build/d3.min.js" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js" crossorigin="anonymous"></script>
+	<script src="./js/io.js"></script>
+	<script src="./js/pedigree_form.js"></script>
+	<script src="./js/pedigree.js"></script>
+	<script src="./js/undo_redo_refresh.js"></script>
+	<script src="./js/widgets.js"></script>
+	<script src="./js/input_validation.js"></script>
+	<script src="./js/hpo_terms.js"></script>
+	<script src="./js/btn_setup.js"></script>
 
 	<script type="text/javascript">
-	if(utils.isIE() || utils.isEdge()) {
-		<!-- canvg used to convert svf to png image -->
-		document.write('<script src="https://cdn.jsdelivr.net/npm/canvg@2.0.0/dist/browser/canvg.min.js"><\/script>');
-	}
-
-	$( document ).ready(function() {
-		var DEBUG = (pedigree_util.urlParam('debug') === null ? false : true);
-
-		////////////////////
-		var dataset = [
-			{"name": "m11", "sex": "M", "top_level": true},
-			{"name": "f11", "display_name": "Jane",  "sex": "F", "status": 1, "top_level": true, "breast_cancer_diagnosis_age":67, "ovarian_cancer_diagnosis_age":63},
-			{"name": "m12", "sex": "M", "top_level": true},
-			{"name": "f12", "sex": "F", "top_level": true, "breast_cancer_diagnosis_age":55},
-			{"name": "m21", "sex": "M", "mother": "f11", "father": "m11", "age": 56},
-			{"name": "f21", "sex": "F", "mother": "f12", "father": "m12", "breast_cancer_diagnosis_age":55, "breast_cancer2_diagnosis_age": 60, "ovarian_cancer_diagnosis_age":58, "age": 63},
-			{"name": "ch1", "display_name": "Ana", "sex": "F", "mother": "f21", "father": "m21", "proband": true, "age": 25}
-		];
-		$( "#pedigrees" ).append( $( "<div id='pedigree_history'></div>" ) );
-		$( "#pedigrees" ).append( $( "<div id='pedigree'></div>" ) );
-		
-		var opts = {
-				'targetDiv': 'pedigree',
-				'btn_target': 'pedigree_history',
-			//	'nodeclick': pedigree_form.nodeclick,
-				'width': ($(window).width() > 450 ? 390 : $(window).width()- 30),
-				'height': 280,
-				'symbol_size': 30,
-				'edit': true,
-				'zoomIn': .8,
-				'zoomOut': 3.,
-				'font_size': '0.75em',
-	        	'diseases': [{'type': 'breast_cancer', 'colour': '#F68F35'},
-	        				 {'type': 'breast_cancer2', 'colour': 'pink'},
-							 {'type': 'ovarian_cancer', 'colour': '#4DAA4D'},
-							 {'type': 'pancreatic_cancer', 'colour': '#4289BA'},
-							 {'type': 'prostate_cancer', 'colour': '#D5494A'}],
-				'DEBUG': (pedigree_util.urlParam('debug') === null ? false : true)};
-		var local_dataset = pedcache.current(opts);
-		if (local_dataset !== undefined && local_dataset !== null) {
-			opts.dataset = local_dataset;
-		} else {
-			opts.dataset = dataset;
+		function capitaliseFirstLetter(string) {
+			return string.charAt(0).toUpperCase() + string.slice(1);
 		}
-		opts= ptree.build(opts);
-	});
+
+		var DEFAULT_DISEASES = [
+			{ 'type': 'breast_cancer', 'colour': 'darkgrey' },
+			{ 'type': 'breast_cancer2', 'colour': 'darkgrey' },
+			{ 'type': 'pancreatic_cancer', 'colour': 'darkgrey' },
+			{ 'type': 'ovarian_cancer', 'colour': 'darkgrey' },
+			{ 'type': 'prostate_cancer', 'colour': 'darkgrey' }
+		];
+
+		var DEFAULT_GENE_TESTS = [
+			{ 'name': 'brca1', 'explanation': 'This test looks for harmful changes in the BRCA1 gene.' },
+			{ 'name': 'brca2', 'explanation': 'This test looks for harmful changes in the BRCA2 gene.' },
+			{ 'name': 'palb2', 'explanation': 'This test looks for mutations that result in loss of function of the corresponding protein of the PALB2 gene.' },
+			{ 'name': 'atm', 'explanation': 'This test looks for a pathogenic mutation in the ATM gene.' },
+			{ 'name': 'check2', 'explanation': 'This test looks for mutations in the CHEK2 gene.' }
+		];
+
+		var DEFAULT_PATHOLOGY_TESTS = [
+			{ 'name': 'er', 'explanation': 'Result of an ImmunoHistoChemistry test (IHC). About the patients breast cancer being estrogen-receptor (ER) positiv or negativ.' },
+			{ 'name': 'pr', 'explanation': 'Result of an ImmunoHistoChemistry test (IHC). About the pathogenicity being progesterone-receptor (PR) positiv or negativ.' },
+			{ 'name': 'her2', 'explanation': 'Result of either an IHC test or a FISH test. About the pathogenicity of the human epidermal growth factor receptor 2 (HER2).' },
+			{ 'name': 'ck14', 'explanation': 'About the pathogenicity of the tested cytokeratin-14 (CK14).' },
+			{ 'name': 'ck56', 'explanation': 'About the pathogenicity of the tested cytokeratin-5/6 (CK56).' }
+		];
+
+		$(document).ready(function () {
+			var parent_width = $('#pedigrees').parent().width();
+			var svg_width = (parent_width * 0.90);
+
+			var parent_height = $('#wrapper').parent().height();
+			var svg_height = (parent_height * 0.70);
+
+			var opts = {
+				'targetDiv': 'pedigrees',
+				'btn_target': 'demo_history',
+				'store_type': 'session',
+				'width': svg_width,
+				'height': svg_height,
+				'symbol_size': 50,
+				'background': 'white',
+				'diseases': $.extend(true, [], DEFAULT_DISEASES),
+				'additional_diseases': [],
+				'gene_tests': $.extend(true, [], DEFAULT_GENE_TESTS),
+				'pathology_tests': $.extend(true, [], DEFAULT_PATHOLOGY_TESTS),
+				'DEBUG': (pedigree_util.urlParam('debug') === null ? false : true)
+			};
+			$('#opts').append(JSON.stringify(opts, null, 4));
+			var local_dataset = pedcache.current(opts);
+			if (local_dataset !== undefined && local_dataset !== null) {
+				opts.dataset = local_dataset;
+			}
+
+			// to reset diseases in case sth went wrong
+			//localStorage.diseases = JSON.stringify(DEFAULT_DISEASES); 
+			//localStorage.additional_diseases = JSON.stringify([]);
+
+			var dis = localStorage.getItem('diseases');
+			var add_dis = localStorage.getItem('additional_diseases')
+			if (dis !== undefined && dis !== null) {
+				opts.diseases = JSON.parse(dis);
+			}
+			if (add_dis !== undefined && add_dis !== null) {
+				opts.additional_diseases = JSON.parse(add_dis);
+			}
+			opts = ptree.build(opts);
+
+			btn_setup(opts);
+		});
 	</script>
 </head>
 
 <body>
+	<h1>pedigreejs</h1>
 
-<!-- HEADER -->
-<div class="jumbotron" style="background-color:#DDD1C1">
-	<div class="container">
-	          <a class="btn btn-primary btn-lg pull-right" role="button" href="https://github.com/CCGE-BOADICEA/pedigreejs">View on GitHub</a>
-	          <h1>pedigreejs</h1>
-	          <h2>A web tool for building and displaying pedigrees.</h2>
-	</div>
-</div>
-
-<div class="container">
-	<div class="row">
-<!-- EXAMPLE -->
-		<div class="col-md-6 col-md-push-6">
-			<div class="text-center">
-				<label class="btn btn-default btn-file">
-						<input id="load" type="file" style="display: none;"/>Load
-				</label>	
-				<label class="btn btn-default btn-file">
-						<input id="save" type="button" style="display: none;"/>Save
-				</label>
-				<label class="btn btn-default btn-file">
-						<input id="print" type="button" style="display: none;"/>Print
-				</label>
-				<label class="btn btn-default btn-file">
-						<input id="svg_download" type="button" style="display: none;"/>SVG
-				</label>
-				<label class="btn btn-default btn-file">
-						<input id="png_download" type="button" style="display: none;"/>PNG
-				</label>
-
-				<div id="pedigrees"></div>
-				<div id="node_properties"></div>
-			</div>
+	<div id="wrapper">
+		<div id="buttons-area">
+			<label class="btn btn-default btn-file">
+				<input id="newPedigree" type="button" style="display: none;" />New
+			</label>
+			<label class="btn btn-default btn-file">
+				<input id="load" type="file" style="display: none;" />Load
+			</label>
+			<label class="btn btn-default btn-file">
+				<input id="save" type="button" style="display: none;" />Save
+			</label>
+			<br><br>
+			<label class="btn btn-default btn-file">
+				<input id="fh_edit_settings" type="button" style="display: none;" />Configure Diseases
+			</label>
+			<br><br>
+			<label class="btn btn-default btn-file">
+				<input id="saveBOADICEA" type="button" style="display: none;" />Export BOADICEA
+			</label>
+			<label class="btn btn-default btn-file">
+				<input id="print" type="button" style="display: none;" />Print
+			</label>
+			<label class="btn btn-default btn-file">
+				<input id="svg_download" type="button" style="display: none;" />SVG
+			</label>
+			<label class="btn btn-default btn-file">
+				<input id="png_download" type="button" style="display: none;" />PNG
+			</label>
 		</div>
-		<div class="col-md-6 col-md-pull-6">
-			<h3>Overview</h3>
-			<p class="text-justify">
-			<strong>pedigreejs</strong> is a JavaScript library used to draw family trees using
-			<a href="https://www.ncbi.nlm.nih.gov/pubmed/7887430" target="_blank">standard pedigree nomenclature</a>.
-			It uses the JavaScript <a href="https://d3js.org/" target="_blank">d3</a> library
-			to layout the hierarchical structure and draw the individual nodes as a SVG image.
-			The size of the SVG can be configured as well as the colour codes used to denote disease.
-			It can be used to build the pedigree structure or load in an existing data set.
-			To assist visualisation and building of larger pedigrees a full screen mode is provided.
-			</p>
-			<p>
-			Browser local storage is used to maintain a history of the steps in building a pedigree
-			structure. So that at each step of the pedigree building process it can be undone to return
-			to previous versions.
-			</p>
-			<p>See the <a href="docs/developer.html">developer documentation</a> for more details about setting up
-			pedigreejs.</p>
-			<p>A demonstration page is available <a href="docs/demo.html">here</a>.
-			Other example pages and configurations are given below:</p>
-			<ul>
-				<li>Example 1: <a href="docs/example1.html">diabetes example</a></li>
-				<li>Example 2: <a href="docs/example2.html">change background, node colours and using local storage</a></li>
-				<li>Example 3: <a href="docs/example3.html">change text and node size</a></li>
-				<li>Example 4: <a href="docs/example4.html">PED file example with genotype data</a></li>
-				<li>Example 5: <a href="docs/example5.html">consanguineous partners and first and last name labels</a></li>
-				<li>Example 6: <a href="docs/example6.html">example pedigree validation</a></li>
-				<li>Example 7: <a href="docs/example7.html">twins, divorced, miscarriage, termination, stillbirth and adoption</a></li>
-				<li>Example 8: <a href="docs/example8.html">search pedigree data</a></li>
-				<li>Example 9: <a href="docs/example9.html">consanguineous partners at different levels</a></li>
-			</ul>
+
+		<div id="content">
+			<div id='demo_history'></div>
+			<div id="pedigrees"></div>
 		</div>
 	</div>
 
-<!-- EXAMPLE END -->
-	
-	<h3>Building Pedigrees</h3>
-	<p>
-	Individuals can be added to the pedigree by placing the mouse over an individual to reveal
-	the widgets used for editing and adding a
-	partner <i class="fa fa-link" aria-hidden="true"></i> (two people with at least one child),
-	parents <i class="fa fa-arrow-up" aria-hidden="true"></i>,
-	a sibling <i class="fa fa-user-plus" aria-hidden="true"></i>,
-	or a child <i class="fa fa-arrow-down" aria-hidden="true"></i>.
-	Options are given to add
-	male <i class="fa fa-square-o" aria-hidden="true"></i>,
-	female <i class="fa fa-circle-o" aria-hidden="true"></i>,
-	unknown  <i class="fa fa-square-o fa-rotate-45" aria-hidden="true"></i>,
-	dizygotic (fraternal) twin <i class="fa fa-angle-up" style="font-size:1.5em" aria-hidden="true"></i>
-	or monozygotic (identical) twin <i class="fa fa-caret-up" style="font-size:1.5em" aria-hidden="true"></i>.
-	</p>
-	<p>
-	If the 'edit' parameter is set in the configuration of pedigreejs then the <i class="fa fa-cog" aria-hidden="true"></i> widget
-	is also displayed. When this widget is clicked it opens an editor dialog of the attributes associated for the individual. A default
-	editor is provided that can be overridden and customised.
-	</p>
-	<p>Half siblings can be added by creating a new partner (with <i class="fa fa-link" aria-hidden="true"></i>)
-	for the parent in common to the siblings.
-	Consanguineous partners can be created between individual's at the same or different levels in the pedigree
-	tree, <i>e.g.</i> cousins.
-	This is done by placing the mouse over one of the partners and clicking and dragging the
-	triple dashed line widget <img alt="handle" src="docs/img/handle.png"> in the direction of their new partner.
-	</p>
-	<p>
-	There are 'undo' <i class="fa fa-undo" aria-hidden="true"></i>,
-	'redo' <i class="fa fa-repeat" aria-hidden="true"></i> and 'reset' <i class="fa fa-refresh" aria-hidden="true"></i>
-	buttons at the top and a button to enable full screen editing <i class="fa fa-arrows-alt" aria-hidden="true"></i>.
-	</p>
-	
-	<h3>Loading and Saving Pedigree Data</h3>
-	<p>The pedigree can be saved out and loaded back in. Preliminary support is given to loading basic
-	BOADICEA file format v4 (see the BOADICEA documentation 
-	<a href="https://pluto.srl.cam.ac.uk/bd4/v4/docs/BWA_v4_Appendix_A.pdf" target="_blank">Appendix</a>).</p>
-	
-	<p>Support for <a href="https://www.cog-genomics.org/plink/1.9/formats#ped">PED file format</a>
-	has been added, see <a href="docs/example4.html">example 4</a>.<p>
-
-	<h3>Future Development</h3>
-		<p>The following will be looked at:</p>
-		<ul>
-			<li>currently the maximum number of partners an individual can be represented to have is 2.</li>
-			<li><del>the ability to represent consanguineous partners between different levels in the tree.</del></li>
-		</ul>
-
-	<h3 id="config">Configuration and Integration Notes</h3>
-	<p>The following parameters can be used to configure pedigreejs.
-	Please also see the <a href="docs/developer.html">developer notes</a> for more details about
-	programmatically interacting with pedigreejs.
-	The important parameter to configure is 'targetDiv' which defines the HTML div used for
-	drawing the pedigree. Default parameters are provided which are documented below.
-	There is a configuration parameter 'edit' which can take a function, so that a
-	customised editor can be written to view and edit an individual's attributes (e.g. name, sex).
-	Alternatively is 'edit' is set to true a default dialog will be displayed showing the
-	individual's attributes.
-	</p>
-	
-<pre>
-	var opts = {
-		'targetDiv': 'pedigree',
-		'btn_target': 'pedigree_history',
-		'width': 450,
-		'height': 320,
-		'symbol_size': 35,
-		'store_type': 'array',
-		'diseases': [
-			{'type': 'breast_cancer', 'colour': '#F68F35'},
-			{'type': 'ovarian_cancer', 'colour': '#4DAA4D'},
-			{'type': 'pancreatic_cancer', 'colour': '#4289BA'},
-			{'type': 'prostate_cancer', 'colour': '#D5494A'}],
-		labels: ['age', 'yob'],
-		font_size: '.75em',
-		font_family: 'Helvetica',
-		font_weight: 700,
-		'DEBUG': (pedigree_util.urlParam('debug') === null ? false : true)
-	};
-	var local_dataset = pedcache.current(opts);
-	if (local_dataset !== undefined && local_dataset !== null) {
-		opts.dataset = local_dataset;
-	} else {
-		opts.dataset = dataset;
-	}
-	opts= ptree.build(opts);
-</pre>
-
-	<div class="row" id="opts">
-		<div class="col-md-2 text-right"><h4>Options:</h4></div>
-		<div class="col-md-10"></div>
-	</div>
-
-	<div class="row" id="targetDiv">
-		<div class="col-md-2 text-right"><strong>targetDiv</strong></div>
-		<div class="col-md-10">This is the id of the HTML div used for drawing the pedigree, <i>e.g.</i> 'pedigree_edit'.</div>
-	</div>
-	<div class="row" id="btn_target">
-		<div class="col-md-2 text-right"><strong>btn_target</strong></div>
-		<div class="col-md-10">This is the id of the HTML div used for the buttons, <i>e.g.</i> 'pedigree_history'.</div>
-	</div>
-	<div class="row" id="dataset">
-		<div class="col-md-2 text-right"><strong>dataset</strong></div>
-		<div class="col-md-10">The pedigree data to be displayed, <i>e.g.</i>
-<pre>
-[ {"name": "m21", "sex": "M", "top_level": true},
-  {"name": "f21", "sex": "F", "top_level": true},
-  {"name": "ch1", "sex": "F", "mother": "f21", "father": "m21", "breast_cancer":  true, "proband": true}]</pre>
-    	</div>
-    </div>
-	<div class="row" id="labels">
-		<div class="col-md-2 text-right"><strong>labels</strong></div>
-		<div class="col-md-10">Array of attributes to display under the individual's symbol, <i>e.g.</i> labels: ['age', 'yob', 'alleles'].</div>
-	</div>
-	<div class="row" id="font_size">
-		<div class="col-md-2 text-right"><strong>font_size</strong></div>
-		<div class="col-md-10">Define the font-size of the labels, <i>e.g.</i> '0.75em' or '10px'.</div>
-	</div>
-	<div class="row" id="font_family">
-		<div class="col-md-2 text-right"><strong>font_family</strong></div>
-		<div class="col-md-10">Define the font-family of the labels, <i>e.g.</i> 'times'.</div>
-	</div>
-	<div class="row" id="font_weight">
-		<div class="col-md-2 text-right"><strong>font_weight</strong></div>
-		<div class="col-md-10">Define the font-weight of the labels, <i>e.g.</i> 400, 700.</div>
-	</div>
-	<div class="row" id="width">
-		<div class="col-md-2 text-right"><strong>width</strong></div>
-		<div class="col-md-10">Width of the SVG element, <i>e.g.</i> 600.</div>
-	</div>
-	<div class="row" id="height">
-		<div class="col-md-2 text-right"><strong>height</strong></div>
-		<div class="col-md-10">Height of the SVG element, <i>e.g.</i> 400.</div>
-    </div>
-	<div class="row" id="symbol_size">
-		<div class="col-md-2 text-right"><strong>symbol_size</strong></div>
-		<div class="col-md-10">Size of the nodes, <i>e.g.</i> 35.</div>
-    </div>
-    <div class="row" id="store_type">
-		<div class="col-md-2 text-right"><strong>store_type</strong></div>
-		<div class="col-md-10">Pedigree storage (for undo, redo functions) set to 'session', 'local' or 'array'.
-		Default is '<a href="https://www.w3schools.com/html/html5_webstorage.asp">session</a>' browser storage.
-		Using 'session' will store the data for one session (data is lost when the browser tab is closed).
-		Using 'local' will store the data with no expiration date.
-		If session/local storage is not supported then it switches automatically to 'array' (JavaScript array store).</div>
-    </div>
-	<div class="row" id="zoomIn">
-		<div class="col-md-2 text-right"><strong>zoomIn</strong></div>
-		<div class="col-md-10">The factor by which the svg size can be scaled down to, default 1 (no zoom in).</div>
-    </div>
-	<div class="row" id="zoomOut">
-		<div class="col-md-2 text-right"><strong>zoomOut</strong></div>
-		<div class="col-md-10">The factor by which the svg size can be scaled up to, default 1 (no zoom out).</div>
-    </div>
-	<div class="row" id="edit">
-		<div class="col-md-2 text-right"><strong>edit</strong></div>
-		<div class="col-md-10">Set to true for a button to display an individual's details (<i>e.g.</i> age, sex) in a dialog or provide a funtion to handle editing.</div>
-    </div>
-	<div class="row" id="diseases">
-		<div class="col-md-2 text-right"><strong>diseases</strong></div>
-		<div class="col-md-10">Diseases and their colour representation, <i>e.g.</i>
-<pre>
-[{'type': 'breast_cancer', 'colour': '#F68F35'},
- {'type': 'breast_cancer2', 'colour': 'pink'},
- {'type': 'ovarian_cancer', 'colour': '#4DAA4D'},
- {'type': 'pancreatic_cancer', 'colour': '#4289BA'},
- {'type': 'prostate_cancer', 'colour': '#D5494A'}]</pre>
-		</div>
-	</div>
-	<div class="row" id="background">
-		<div class="col-md-2 text-right"><strong>background</strong></div>
-		<div class="col-md-10">SVG background colour, <i>e.g.</i> #d3d3d3.</div>
-	</div>
-	<div class="row" id="node_background">
-		<div class="col-md-2 text-right"><strong>node_background</strong></div>
-		<div class="col-md-10">Individual's background colour, <i>e.g.</i> #fff.</div>
-	</div>
-	<div class="row" id="validate">
-		<div class="col-md-2 text-right"><strong>validate</strong></div>
-		<div class="col-md-10">Pedigree data validation (default true). This can also take a validation
-		function to override the in-built validation. The in-built validation throws an error if any
-		of the following are not true:
-		<ul>
-			<li>parents, when defined, exist in the pedigree</li>
-			<li>mother is female</li>
-			<li>father is male</li>
-		</ul>
-		A warning message it sent to the console if there are any individuals that are not connected
-		(i.e. a break in the pedigree). See the <a href="docs/developer.html">developer notes</a> for
-		more details.
-		</div>
-    </div>
-	<div class="row" id="DEBUG">
-		<div class="col-md-2 text-right"><strong>DEBUG</strong></div>
-		<div class="col-md-10">Debug mode, <i>e.g.</i> false.</div>
-    </div>
-
-    <h3>Publication</h3>
-    <p><strong>pedigreejs: a web-based graphical pedigree editor</strong><br>
-    Carver T, Cunningham AP, Babb de Villiers C, Lee A, Hartley S, Tischkowitz M, et al. 
-    <i>Bioinformatics <a href="http://dx.doi.org/10.1093/bioinformatics/btx705" target="_blank">
-    doi:10.1093/bioinformatics/btx705</a></i></p>
-</div>
-
-<p></p>
+	<div id="node_properties"></div>
+	<div id="conganguity_info"></div>
+	<div id="fh_settings"></div>
+	<div id="crash_msg"></div>
+	<div id="boadicea-error"></div>
+	<div id="reset_dialog" title="Confirmation Disease Reset"></div>
+	<div id="delete_dialog" title="Confirmation Delete Disease"></div>
 </body>
-
-</html>

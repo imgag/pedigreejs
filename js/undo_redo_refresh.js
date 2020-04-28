@@ -10,7 +10,7 @@
 
 		var btns = [{"fa": "fa-undo", "title": "undo"},
 					{"fa": "fa-repeat", "title": "redo"},
-					{"fa": "fa-refresh", "title": "reset"},
+					{"fa": "fa-history", "title": "reset"},
 					{"fa": "fa-arrows-alt", "title": "fullscreen"}];
 		var lis = "";
 		for(var i=0; i<btns.length; i++) {
@@ -67,7 +67,7 @@
 				opts.dataset = pedcache.next(opts);
 				$("#"+opts.targetDiv).empty();
 				ptree.build(opts);
-			} else if ($(e.target).hasClass('fa-refresh')) {
+			} else if ($(e.target).hasClass('fa-history')) {
 				$('<div id="msgDialog">Resetting the pedigree may result in loss of some data.</div>').dialog({
 					title: 'Confirm Reset',
 					resizable: false,
