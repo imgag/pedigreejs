@@ -17,17 +17,17 @@ The pedigree features three areas, the menu, the pedigree area and the family me
 
 ### Menu
 
-General Functions:
-*New* - Deletes the current disease configuration and pedigree to start a new one
-*Load* - Loads a previously saved pedigree or a pedigree in the BOADICEA file format
-*Save* - Saves the current pedigree and all actively occuring diseases in the JSON file format
-Configuration:
-*Configure Diseases* - Opens a configuration window that allows the user to define her/his own set of dieseases/phenotypes. The input field features an autocomplete for a set of predefined HPO terms.
-Export in different file formats:
-*Export BOADICEA* - Exports the current pedigree in the BOADICEA format for the CanRisk cancer prediction. This requires that all sexes and a proband is defined.
-*Print* - Opens a print dialog for the current pedigree
-*SVG* - Exports the current pedigree in as svg
-*PNG* - Exports the currently visible part of the pedigree as PNG picture
+General Functions:<br/>
+*New* - Deletes the current disease configuration and pedigree to start a new one<br/>
+*Load* - Loads a previously saved pedigree or a pedigree in the BOADICEA file format<br/>
+*Save* - Saves the current pedigree and all actively occuring diseases in the JSON file format<br/>
+Configuration:<br/>
+*Configure Diseases* - Opens a configuration window that allows the user to define her/his own set of dieseases/phenotypes. The input field features an autocomplete for a set of predefined HPO terms.<br/>
+Export in different file formats:<br/>
+*Export BOADICEA* - Exports the current pedigree in the BOADICEA format for the CanRisk cancer prediction. This requires that all sexes and a proband is defined.<br/>
+*Print* - Opens a print dialog for the current pedigree<br/>
+*SVG* - Exports the current pedigree in as svg<br/>
+*PNG* - Exports the currently visible part of the pedigree as PNG picture<br/>
 
 ### Pedigree
 
@@ -38,15 +38,15 @@ The pedigree is able to show all common family histories. On hover six different
 3. *Arrow right* - Add sibling. Only for children. Like 'Add child' a child gets added to the relationship and a configuration window will pop up.
 4. *Chains* - Add partner. Only for individuals with up to one partner. Adds a partner and a child to the pedigree.
 5. *X* - Delete. Deletes the individual of the pedigree.
-6. *U+258A* - Consanguity. Two individuals can be connected as consangious partners if somewhere in the pedigree the derive form the same relationship.
+6. *■* - Consanguity. Two individuals can be connected as consangious partners if somewhere in the pedigree the derive form the same relationship.
 
 ### Individual configuration
 
-This window shows the name of the currently added individual in the top left corner. There are four distinct sections:
-*General Info* - Information about the individual, like age, year of birth, sex, etc.
-*Age of Diagnosis* - Information about the age of diagnosis of the diseases/phenotypes.
-*Genetic Tests* - A list of genetic tests required for the export to the BOADICEA format. The test can be a mutation search or a genetic gene test.
-*Pathology Tests* - A list of test about the pathology of certain conditions being pathologic.
+This window shows the name of the currently added individual in the top left corner. There are four distinct sections:<br/>
+*General Info* - Information about the individual, like age, year of birth, sex, etc.<br/>
+*Age of Diagnosis* - Information about the age of diagnosis of the diseases/phenotypes.<br/>
+*Genetic Tests* - A list of genetic tests required for the export to the BOADICEA format. The test can be a mutation search or a genetic gene test.<br/>
+*Pathology Tests* - A list of test about the pathology of certain conditions being pathologic.<br/>
 
 
 ## For Developers
