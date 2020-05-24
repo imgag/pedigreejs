@@ -2,7 +2,7 @@
 const regex_number = /[\dn]/; // any number or ENTER
 const regex_letters = /^[a-zA-ZäöüßÄÖÜ\n\s]+$/; // any letter of a german keyboard layout
 
-const earliest_yob = 1700;
+const earliest_yob = 1500;
 const latest_yob = new Date().getFullYear();
 
 const min_age = 0;
@@ -13,8 +13,8 @@ var setup_input_validation = function (d) {
     autofill(d);
 }
 
-var validation = function() {
-    
+var validation = function () {
+
     validate_number_input('#id_yob_0', earliest_yob, latest_yob);
     $.each($('.age-input'), function () {
         validate_number_input('#' + this.id, min_age, max_age);
@@ -64,7 +64,7 @@ var restrict_diagnosis_age = function () {
 var autofill = function (d) {
     // autofill yob if age is given
     $('#id_age').on('change.autofill', function (e) {
-        if (!this.value == '') {
+        if (!this.value == '' && !$('#dead').is(':checked')) {
             // calc most likely birth year
             var likely_yob = new Date().getFullYear() - this.value;
             // set yob value to most likely birth year if no other value is given
@@ -79,7 +79,7 @@ var autofill = function (d) {
 
     // autofill age if yob is given
     $('#id_yob_0').on('change.autofill', function (e) {
-        if (!this.value == '') {
+        if (!this.value == '' && !$('#dead').is(':checked') && (this.value >= new Date().getFullYear() - 150)) {
             // calc most likely birth year
             var likely_age = new Date().getFullYear() - this.value;
             // set yob value to most likely birth year if no other value is given
@@ -90,6 +90,7 @@ var autofill = function (d) {
             }
         }
     });
+
 
     // block breast cancer 2 if breast cancer is empty
     var bc = $('#id_breast_cancer_diagnosis_age_0');
@@ -132,7 +133,7 @@ var sex_dep_restrictions = function (sex) {
 
 var get_name_by_ID = function (dataset, id) {
     for (var p = 0; p < dataset.length; p++) {
-        if (dataset[p].name == id) { 
+        if (dataset[p].name == id) {
             return dataset[p].display_name
         }
     }
