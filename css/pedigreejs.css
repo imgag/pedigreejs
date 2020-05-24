@@ -80,6 +80,7 @@ br p {
 	overflow-y: scroll;
 	overflow-x: hidden;
 	max-height: 15em;
+	min-height: 2.5em;
 }
 
 .scrollable {

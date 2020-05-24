@@ -34,7 +34,7 @@ function btn_setup(opts) {
     // adds the functionality of the disease configuration button
     $('#fh_settings').dialog({
         autoOpen: false,
-        title: "Disease Configuration",
+        title: "Disease List",
         width: 322
     });
     var html_dis = '<div id="disease_table"></div>';
@@ -126,13 +126,13 @@ function btn_setup(opts) {
         $('#disease_table').html(tab);
 
         $('#dis_name').autocomplete({
-            minLength: 3,
+            minLength: 2,
             source: function (request, response) {
                 response(hpo_terms.filter(function (entry) {
                     return entry['display-name'].toLowerCase().includes(request['term'].toLowerCase());
                 }).map(function (entry) {
                     return entry['display-name'];
-                }));
+                }).sort());
             }
         });
 
