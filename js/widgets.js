@@ -494,9 +494,9 @@
 			var gene_test_type = (gene_test !== undefined ? gene_test['type'] : "0");
 			var gene_test_result = (gene_test !== undefined ? gene_test['result'] : "0");
 
-			genetictests += "<tr><td style='text-align:right'>" +
+			genetictests += "<tr><td style='text-align:right;'>" +
 				'<label title="' + v.explanation + '">' + v.name.replace(/_/g, " ").toUpperCase() + '</label>' +
-				"&nbsp;</td><td class='gene_test_td'>" +
+				"&nbsp;</td><td>" +
 				"<p>Type:</p><select class='selectpicker test-type' id='id_" +
 				v.name + "_gene_test_type' name='" +
 				v.name + "_gene_test' style='width:10em;'>" +
@@ -545,8 +545,8 @@
 			autoOpen: false,
 			title: (d.data.display_name ? d.data.display_name : windowname),
 			dialogClass: 'person-dialog',
-			width: 1500
-		});
+			width: window.innerWidth * 0.75
+		}).css({overflow:"auto"});
 
 		// Header
 		var table = "<table id='person_details' class='table'>" +
@@ -563,7 +563,7 @@
 		// Identification
 		table += "<tr><td>Unique ID </td><td><input class='form-control' type='text' id='id_name' name='name' value=" +
 			(d.data.name ? d.data.name : "") + " readonly></td></tr>";
-		table += "<tr><td>Name </td><td><input class='form-control' type='text' id='id_display_name' name='display_name' value=" +
+		table += "<tr><td>Individual ID </td><td><input class='form-control' type='text' id='id_display_name' name='display_name' value=" +
 			(d.data.display_name ? d.data.display_name : "") + "></td></tr>";
 
 		// Age

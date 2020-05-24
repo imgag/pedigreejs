@@ -29,6 +29,7 @@ svg {
 table {
 	padding: 1em;
 	text-align: center;
+	white-space: nowrap;
 }
 
 tr {
@@ -70,9 +71,22 @@ br p {
 }
 
 #dis_name {
-	width: 15em;
+	width: 17em;
 	margin-left: auto;
 	margin-right: auto;
+}
+
+.ui-autocomplete {
+	overflow-y: scroll;
+	overflow-x: hidden;
+	max-height: 15em;
+}
+
+.scrollable {
+	width: 17em;
+	height: 100%;
+	overflow-x: auto;
+	overflow-y: hidden;
 }
 
 .selectpicker {

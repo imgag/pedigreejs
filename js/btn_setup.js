@@ -35,7 +35,7 @@ function btn_setup(opts) {
     $('#fh_settings').dialog({
         autoOpen: false,
         title: "Disease Configuration",
-        width: 300
+        width: 322
     });
     var html_dis = '<div id="disease_table"></div>';
 
@@ -48,8 +48,8 @@ function btn_setup(opts) {
                 '<i class="fa fa-minus" aria-hidden="true"></i>' +
                 '</label></td>';
 
-            list += "<tr><td style='text-align:center;'>" +
-                capitaliseFirstLetter(v.type.replace(/_/g, " ")) + "&nbsp;</td>" +
+            list += "<tr><td style='text-align:center;'><div class='scrollable'>" +
+                capitaliseFirstLetter(v.type.replace(/_/g, " ")) + "&nbsp;</div></td>" +
                 deleteBtn +
                 "</tr>";
         });
@@ -129,7 +129,7 @@ function btn_setup(opts) {
             minLength: 3,
             source: function (request, response) {
                 response(hpo_terms.filter(function (entry) {
-                    return entry['sterm'].toLowerCase().includes(request['term'].toLowerCase());
+                    return entry['display-name'].toLowerCase().includes(request['term'].toLowerCase());
                 }).map(function (entry) {
                     return entry['display-name'];
                 }));
@@ -151,7 +151,8 @@ function btn_setup(opts) {
                     }
                 }
             });
-            $("#delete_dialog").html("This will delete '" + capitaliseFirstLetter(this_disease.replace(/_/g, " ")) + "' from the list. Are you sure?");
+            $("#delete_dialog").html("This will delete '" + capitaliseFirstLetter(this_disease.replace(/_/g, " ")) + "' from the list and all "
+                                        + "corresponding records in the pedigree. Are you sure?");
         });
 
         $('#add_disease').on("click", function () {
@@ -189,7 +190,8 @@ function btn_setup(opts) {
                     }
                 }
             });
-            $("#reset_dialog").html("This deletes all diseases besides the ones important for BOADICEA CanRisk prediction and restores the default.");
+            $("#reset_dialog").html("This deletes all diseases besides the ones important for BOADICEA CanRisk prediction and restores the default." +
+                                    " All corresponding records in the pedigree will be lost!");
         });
 
         $('#restore_boadicea').on('click', function (e) {
