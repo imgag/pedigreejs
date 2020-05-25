@@ -149,11 +149,11 @@ var dataset_validation = function (dataset) {
                 }
                 if (dataset[midx].sex !== "F") {
                     validated = false;
-                    error_msg = 'The mother "' + mother_name + '" of family member "' + display_name + '" is not specified as female. All mothers in the pedigree must have sex specified as "F".';
+                    error_msg = 'The mother "' + mother_name + '" of family member "' + display_name + '" is not specified as female. All mothers in the pedigree must have sex specified as "Female".';
                 }
                 if (dataset[fidx].sex !== "M") {
                     validated = false;
-                    error_msg = 'The father "' + father_name + '" of family member "' + display_name + '" is not specified as male. All fathers in the pedigree must have sex specified as "M".';
+                    error_msg = 'The father "' + father_name + '" of family member "' + display_name + '" is not specified as male. All fathers in the pedigree must have sex specified as "Male".';
                 }
             }
         }

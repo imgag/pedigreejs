@@ -31,15 +31,15 @@ function btn_setup(opts) {
         });
     });
 
-    // adds the functionality of the disease configuration button
+    // adds the functionality of the disease list button
     $('#fh_settings').dialog({
         autoOpen: false,
         title: "Disease List",
-        width: 322
+        width: 368
     });
     var html_dis = '<div id="disease_table"></div>';
 
-    function make_dis_list(dis_list) {
+    function make_dis_list(dis_list, is_default) {
         list = '';
 
         $.each(dis_list, function (k, v) {
@@ -48,10 +48,17 @@ function btn_setup(opts) {
                 '<i class="fa fa-minus" aria-hidden="true"></i>' +
                 '</label></td>';
 
-            list += "<tr><td style='text-align:center;'><div class='scrollable'>" +
-                capitaliseFirstLetter(v.type.replace(/_/g, " ")) + "&nbsp;</div></td>" +
-                deleteBtn +
-                "</tr>";
+            if (is_default) {
+                list += "<tr><td style='text-align:center;'><div class='scrollable'>" +
+                    v.hpo + "&nbsp;</div></td>" +
+                    deleteBtn +
+                    "</tr>";
+            } else {
+                list += "<tr><td style='text-align:center;'><div class='scrollable'>" +
+                    capitaliseFirstLetter(v.type.replace(/_/g, " ")) + "&nbsp;</div></td>" +
+                    deleteBtn +
+                    "</tr>";
+            }
         });
 
         return list;
@@ -99,8 +106,24 @@ function btn_setup(opts) {
     function update_diseases() {
         var tab = "<table>";
 
-        tab += make_dis_list(opts.diseases);
-        tab += make_dis_list(opts.additional_diseases);
+        tab += '<tr>' +
+            '<td style="text-align:left;font-weight: bold;" colspan="2">' +
+            'For CanRisk Prediction:' +
+            '</td></tr>';
+        tab += make_dis_list(opts.diseases, true);
+        // reset Boadicea
+        tab += '<tr class="spaceUnder">' +
+            '<td style="text-align:center;" colspan="2">' +
+            '<label class="btn btn-default btn-file reset-btn">' +
+            '<input id="restore_boadicea" type="button" style="display: none;"/>' +
+            'Restore BOADICEA' +
+            '</label></td></tr>';
+
+        tab += '<tr>' +
+            '<td style="text-align:left;font-weight: bold;" colspan="2">' +
+            'Self-defined diseases:' +
+            '</td></tr>';
+        tab += make_dis_list(opts.additional_diseases, false);
 
         // add a disease button
         tab += '<tr><td>' +
@@ -111,16 +134,13 @@ function btn_setup(opts) {
             '<i class="fa fa-plus" aria-hidden="true"></i>' +
             '</label></td></tr>';
 
-        // reset diseases
+        // reset default
         tab += '<tr>' +
             '<td style="text-align:center;" colspan="2">' +
             '<label class="btn btn-default btn-file reset-btn">' +
             '<input id="reset_diseases" type="button" style="display: none;"/>' +
             'Restore Default' +
-            '</label><label class="btn btn-default btn-file reset-btn">' +
-            '<input id="restore_boadicea" type="button" style="display: none;"/>' +
-            'Restore BOADICEA' +
-            '</label></td></tr>';
+            '</label></td></tr>'
 
         tab += "</table>";
         $('#disease_table').html(tab);
@@ -152,7 +172,7 @@ function btn_setup(opts) {
                 }
             });
             $("#delete_dialog").html("This will delete '" + capitaliseFirstLetter(this_disease.replace(/_/g, " ")) + "' from the list and all "
-                                        + "corresponding records in the pedigree. Are you sure?");
+                + "corresponding records in the pedigree. Are you sure?");
         });
 
         $('#add_disease').on("click", function () {
@@ -191,7 +211,7 @@ function btn_setup(opts) {
                 }
             });
             $("#reset_dialog").html("This deletes all diseases besides the ones important for BOADICEA CanRisk prediction and restores the default." +
-                                    " All corresponding records in the pedigree will be lost!");
+                " All corresponding records in the pedigree will be lost!");
         });
 
         $('#restore_boadicea').on('click', function (e) {

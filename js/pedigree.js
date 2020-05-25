@@ -1788,11 +1788,11 @@
 			// check & warn only if this is a new split
 			if (ptree.unconnected(opts.dataset).length === 0) {
 				console.error("individuals unconnected to pedigree ", unconnected);
-				utils.messages("Warning", "Deleting this will split the pedigree. Continue?", onDone, opts, dataset);
+				utils.messages("Warning", "Deleting node '" + node.display_name + "' will split the pedigree. Continue?", onDone, opts, dataset);
 				return;
 			}
 		} else {
-			utils.messages("Warning", "Are you sure you want to delete this node?", onDone, opts, dataset);
+			utils.messages("Warning", "Are you sure you want to delete node '" + node.display_name + "'?", onDone, opts, dataset);
 			return;
 		}
 

@@ -68,7 +68,7 @@
 				$("#"+opts.targetDiv).empty();
 				ptree.build(opts);
 			} else if ($(e.target).hasClass('fa-history')) {
-				$('<div id="msgDialog">Resetting the pedigree may result in loss of some data.</div>').dialog({
+				$('<div id="msgDialog">Resetting results in loss of all current pedigree data. Configurations of the disease list will stay unaffacted. Proceed?</div>').dialog({
 					title: 'Confirm Reset',
 					resizable: false,
 					height: "auto",

@@ -34,11 +34,11 @@
 		}
 
 		var DEFAULT_DISEASES = [
-			{ 'type': 'breast_cancer', 'colour': 'darkgrey' },
-			// { 'type': 'breast_cancer2', 'colour': 'darkgrey' },
-			{ 'type': 'pancreatic_cancer', 'colour': 'darkgrey' },
-			{ 'type': 'ovarian_cancer', 'colour': 'darkgrey' },
-			{ 'type': 'prostate_cancer', 'colour': 'darkgrey' }
+			{ 'type': 'breast_cancer', 'hpo': 'HP:0003002 Breast carcinoma', 'colour': 'darkgrey' },
+			// { 'type': 'breast_cancer2', 'colour': 'darkgrey' },  Removed due to user confusion. If needed later on for better CanRisk prediction simply remove comment
+			{ 'type': 'pancreatic_cancer', 'hpo': 'HP:0002894 Neoplasm of the pancreas', 'colour': 'darkgrey' },
+			{ 'type': 'ovarian_cancer', 'hpo': 'HP:0100615 Ovarian neoplasm', 'colour': 'darkgrey' },
+			{ 'type': 'prostate_cancer', 'hpo': 'HP:0012125 Prostate cancer', 'colour': 'darkgrey' }
 		];
 
 		var DEFAULT_GENE_TESTS = [

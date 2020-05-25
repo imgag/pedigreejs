@@ -460,7 +460,7 @@
 
 			updated_diseases += "<tr class='default_diseases'><td style='text-align:right'>" +
 				"<label class='checkbox-inline'>" +
-				capitaliseFirstLetter(v.type.replace(/_/, " ")) + "&nbsp;</td><td>" +
+				v.hpo + "&nbsp;</td><td>" +
 				"<input class='form-control age-input disease-age' id='id_" +
 				v.type + "_diagnosis_age_0' max='110' min='0' name='" +
 				v.type + "_diagnosis_age_0' style='width:5em' type='text' value='" +
@@ -561,7 +561,8 @@
 			"<table>";
 
 		// Identification
-		table += "<tr><td>Unique ID </td><td><input class='form-control' type='text' id='id_name' name='name' value=" +
+		// Stopped displaying unique ID, since it is only used for background functions and onyl confuses the user (to show remove style property)
+		table += "<tr style='display: none;'><td>Unique ID </td><td><input class='form-control' type='text' id='id_name' name='name' value=" +
 			(d.data.name ? d.data.name : "") + " readonly></td></tr>";
 		table += "<tr><td>Individual ID </td><td><input class='form-control' type='text' id='id_display_name' name='display_name' value=" +
 			(d.data.display_name ? d.data.display_name : "") + "></td></tr>";
@@ -610,7 +611,7 @@
 			table +=
 				'<label class="checkbox-inline"><input type="checkbox" id="id_' + attr +
 				'" name="' + attr + '" value="0" ' + (d.data[attr] ? "checked" : "") + '>&thinsp;' +
-				capitaliseFirstLetter(attr.replace('_', ' ')) + '</label>'
+				capitaliseFirstLetter((attr === "termination" ? "abortion" : attr).replace('_', ' ')) + '</label>'
 		}
 
 		// proband
