@@ -585,7 +585,7 @@
 			'</td></tr>';
 
 		// Gender
-		table += '<tr><td colspan="2" id="id_sex">' +
+		table += '<tr><td colspan="2" id="id_sex" style="text-align: left">' +
 			'<label class="radio-inline"><input class="radio_sex" type="radio" name="sex" value="M" ' + (d.data.sex === 'M' ? "checked" : "") + '>Male</label>' +
 			'<label class="radio-inline"><input class="radio_sex" type="radio" name="sex" value="F" ' + (d.data.sex === 'F' ? "checked" : "") + '>Female</label>' +
 			'<label class="radio-inline"><input class="radio_sex" type="radio" name="sex" value="U"' + (d.data.sex === 'U' ? "checked" : "") + '>Unknown</label>' +
@@ -593,7 +593,7 @@
 
 		// ashkenazi
 		var ashkn_status = d.data.ashkenazi;
-		table += '</td></tr><tr><td colspan="2">' +
+		table += '</td></tr><tr><td colspan="2" style="text-align: left">' +
 			'<label class="checkbox-inline">' +
 			'<input type="checkbox" id="id_ashkenazi" name=ashkenazi" " value="0" ' + (ashkn_status ? "checked" : "") + '>' +
 			'&thinsp;Ashkenazi</label>' +
@@ -601,8 +601,8 @@
 
 		// switches
 		var switches = ["adopted_in", "adopted_out", "miscarriage", "stillbirth", "termination"];
-		table += '<tr><td colspan="2"><strong>Reproduction:</strong></td></tr>';
-		table += '<tr><td colspan="2">';
+		table += '<tr><td colspan="2" style="text-align: left"><strong>Reproduction:</strong></td></tr>';
+		table += '<tr><td colspan="2" style="text-align: left">';
 		for (var iswitch = 0; iswitch < switches.length; iswitch++) {
 			var attr = switches[iswitch];
 			if (iswitch === 2)
@@ -615,8 +615,8 @@
 
 		// proband
 		var proband_status = d.data.proband;
-		table += "<tr><td colspan='2'><label>Proband:</label></td></tr>";
-		table += "<tr><td colspan='2'><input type='checkbox' id='id_proband' name='proband' value=" +
+		table += "<tr><td colspan='2' style='text-align: left'><label>Proband:</label></td></tr>";
+		table += "<tr><td colspan='2' style='text-align: left'><input type='checkbox' id='id_proband' name='proband' value=" +
 			proband_status + " " + (proband_status ? "checked" : "") + "></td></tr>";
 
 		table += '</td></tr></table></td>';
