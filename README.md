@@ -69,3 +69,9 @@ The [D3 library](https://d3js.org/) is used to draw the pedigree itself as svg. 
 The [Bootstrap](https://getbootstrap.com/) library provides many basic functionalities of used forms.
 
 ### General Structure
+
+This tool consists of the files [index.html](./index.html), 
+
+## Future Developments
+
+1. Support for genetic tests for RAD51D, RAD51C, and BRIP1 as they are currently not featured in the BOADICEA file format.
