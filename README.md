@@ -70,7 +70,18 @@ The [Bootstrap](https://getbootstrap.com/) library provides many basic functiona
 
 ### General Structure
 
-This tool consists of the files [index.html](./index.html), 
+The functionality of this tool is provided by the files [index.html](./index.html), [btn_setup.js](./js/btn_setup.js), [input_validation](./js/input_validation), [io.js](./js/io.js), [pedigree_form.js](./js/pedigree_form.js), [pedigree.js](./js/pedigree.js), [undo_redo_refresh.js](./js/undo_redo_refresh.js) and [widget.js](./js/widget.js).
+
+1. [index.html](./index.html) - The structure of the tool. Provides divs and buttons. Gets extended by the JavaScript files.
+2. [pedigree.js](./js/pedigree.js) - The main file for the generation of the pedigree. Contains the classes 'pedigree_util' and 'ptree'
+3. [pedigree_form.js](./js/pedigree_form.js) - Contains the class 'pedigree_form'. Contains functions to save information from the 'fh_settings' div to the options and save them in the browser cache. Gets called everytime a change happens in the individual configuration.
+4. [io.js](./js/io.js) - Contains functions for importing and exporting pedigrees. Contains the 'save_BOADICEA' function
+5. [undo_redo_refresh.js](./js/undo_redo_refresh.js) - Functions for caching functionality and undo/redo
+6. [widget.js](./js/widget.js) - Every interactable svg element gets it's function from this file.
+7. [input_validation](./js/input_validation) - Contains function for validating the input given by the user and providing the autocomplete for the HPO terms
+8. [btn_setup.js](./js/btn_setup.js) - Contains the functionality of the 'Change Disease' button (and the corresponding diseases configuration window) and the dialog for making a new pedigree
+
+The general idea is, that there is one 'opts' object (in [index.html](./index.html)), which contains all relevant information for all functions. Most functions only use the opts.dataset attribute, since that contains the pedigree with all informations as object (dictionary).
 
 ## Future Developments
 
