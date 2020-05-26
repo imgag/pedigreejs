@@ -609,7 +609,7 @@
 			if (iswitch === 2)
 				table += '</td></tr><tr><td colspan="2">';
 			table +=
-				'<label class="checkbox-inline"><input type="checkbox" id="id_' + attr +
+				'<label class="checkbox-inline checkbox_reproduction"><input type="checkbox" name="reproduction" id="id_' + attr +
 				'" name="' + attr + '" value="0" ' + (d.data[attr] ? "checked" : "") + '>&thinsp;' +
 				capitaliseFirstLetter((attr === "termination" ? "abortion" : attr).replace('_', ' ')) + '</label>'
 		}

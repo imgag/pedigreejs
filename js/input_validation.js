@@ -10,10 +10,12 @@ const max_age = 150;
 
 var setup_input_validation = function (d) {
     validation();
+    make_rbutton_checkboxes();
     autofill(d);
 }
 
 var validation = function () {
+    make_rbutton_checkboxes()
 
     validate_number_input('#id_yob_0', earliest_yob, latest_yob);
     $.each($('.age-input'), function () {
@@ -107,6 +109,49 @@ var get_name_by_ID = function (dataset, id) {
             return dataset[p].display_name
         }
     }
+}
+
+var make_rbutton_checkboxes = function () {
+    $('#id_adopted_in').click(function () {
+        if ($(this).is(':checked')) {
+            $('#id_adopted_out').prop('checked', false);
+            $('#id_miscarriage').prop('checked', false);
+            $('#id_stillbirth').prop('checked', false);
+            $('#id_termination').prop('checked', false);
+        }
+    });
+    $('#id_adopted_out').click(function () {
+        if ($(this).is(':checked')) {
+            $('#id_adopted_in').prop('checked', false);
+            $('#id_miscarriage').prop('checked', false);
+            $('#id_stillbirth').prop('checked', false);
+            $('#id_termination').prop('checked', false);
+        }
+    });
+    $('#id_miscarriage').click(function () {
+        if ($(this).is(':checked')) {
+            $('#id_adopted_in').prop('checked', false);
+            $('#id_adopted_out').prop('checked', false);
+            $('#id_stillbirth').prop('checked', false);
+            $('#id_termination').prop('checked', false);
+        }
+    });
+    $('#id_stillbirth').click(function () {
+        if ($(this).is(':checked')) {
+            $('#id_adopted_in').prop('checked', false);
+            $('#id_adopted_out').prop('checked', false);
+            $('#id_miscarriage').prop('checked', false);
+            $('#id_termination').prop('checked', false);
+        }
+    });
+    $('#id_termination').click(function () {
+        if ($(this).is(':checked')) {
+            $('#id_adopted_in').prop('checked', false);
+            $('#id_adopted_out').prop('checked', false);
+            $('#id_miscarriage').prop('checked', false);
+            $('#id_stillbirth').prop('checked', false);
+        }
+    });
 }
 
 // gets called in pedigree.js ptree.rebuild()
