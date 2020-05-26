@@ -86,3 +86,7 @@ The general idea is, that there is one 'opts' object (in [index.html](./index.ht
 ## Future Developments
 
 1. Support for genetic tests for RAD51D, RAD51C, and BRIP1 as they are currently not featured in the BOADICEA file format.
+2. Keep the complete disease configuration on save, despite some diseases may not being used in the pedigree
+3. When adding a partner to a family member of unkown gender, an error aswell as the configuration windows get opened. Prevent windows from open when an error gets displayed.
+4. Display warnings when changing gender from female to male and if diagnosis age is incompatible with actual age
+5. Check for self-defined diseases only being an HPO term

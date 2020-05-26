@@ -111,16 +111,16 @@
 
 				if (add_person.type === 'addsibling') {
 					var newsibling = ptree.addsibling(newdataset, add_person.node.datum().data, sex, false, twin_type);
-					openEditNode(opts, newsibling, 'Sibling');
+					if (!pbuttons.is_fullscreen()) {openEditNode(opts, newsibling, 'Sibling');};
 				} else if (add_person.type === 'addchild') {
 					var newchildren = ptree.addchild(newdataset, add_person.node.datum().data, (twin_type ? 'U' : sex), (twin_type ? 2 : 1), twin_type);
 					// if more than 1 child, open edit dialogue 2 times
 					if (!twin_type) {
-						openEditNode(opts, newchildren[0], 'Child');
+						if (!pbuttons.is_fullscreen()) {openEditNode(opts, newchildren[0], 'Child');};
 					} else {
-						openEditNode(opts, newchildren[0], 'Child 1');
+						if (!pbuttons.is_fullscreen()) {openEditNode(opts, newchildren[0], 'Child 1');};
 						$('#node_properties').on('dialogclose', function (e) {
-							openEditNode(opts, newchildren[1], 'Child 2');
+							if (!pbuttons.is_fullscreen()) {openEditNode(opts, newchildren[1], 'Child 2');};
 							$('#node_properties').unbind('dialogclose');
 						});
 					}
@@ -272,18 +272,18 @@
 					newdataset = ptree.copy_dataset(pedcache.current(opts));
 					opts.dataset = newdataset;
 					var parents = ptree.addparents(opts, newdataset, d.data.name);
-					openEditNode(opts, parents[0], 'Mother');
+					if (!pbuttons.is_fullscreen()) {openEditNode(opts, parents[0], 'Mother');};
 					$('#node_properties').on('dialogclose', function (e) {
-						openEditNode(opts, parents[1], 'Father');
+						if (!pbuttons.is_fullscreen()) {openEditNode(opts, parents[1], 'Father');};
 						$('#node_properties').unbind('dialogclose');
 					});
 					ptree.rebuild(opts);
 				} else if (opt === 'addpartner') {
 					newdataset = ptree.copy_dataset(pedcache.current(opts));
 					var newpartnerchild = ptree.addpartner(opts, newdataset, d.data.name);
-					openEditNode(opts, newpartnerchild[0], 'Partner');
+					if (!pbuttons.is_fullscreen()) {openEditNode(opts, newpartnerchild[0], 'Partner');}
 					$('#node_properties').on('dialogclose', function (e) {
-						openEditNode(opts, newpartnerchild[1], 'Child');
+						if (!pbuttons.is_fullscreen()) {openEditNode(opts, newpartnerchild[1], 'Child');}
 						$('#node_properties').unbind('dialogclose');
 					});
 					opts.dataset = newdataset;
