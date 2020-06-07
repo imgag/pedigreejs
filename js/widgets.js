@@ -512,6 +512,32 @@
 				"<option value='N'" + (gene_test_result == 'N' ? 'selected' : '') + ">Negative</option>" +
 				"</select></td></tr>";
 		});
+		
+		
+		$.each(opts.additional_gene_tests, function (i, v) {
+			exclude.push(v.name + "_gene_test");
+			var gene_test = d.data[v.name + "_gene_test"];
+			var gene_test_type = (gene_test !== undefined ? gene_test['type'] : "0");
+			var gene_test_result = (gene_test !== undefined ? gene_test['result'] : "0");
+
+			genetictests += "<tr><td style='text-align:right;'>" +
+				'<label title="' + v.explanation + '">' + v.name.replace(/_/g, " ").toUpperCase() + '</label>' +
+				"&nbsp;</td><td>" +
+				"<p>Type:</p><select class='selectpicker test-type' id='id_" +
+				v.name + "_gene_test_type' name='" +
+				v.name + "_gene_test' style='width:10em;'>" +
+				"<option value='0'" + (gene_test_type == '0' ? 'selected' : '') + ">Not tested</option>" +
+				"<option value='S'" + (gene_test_type == 'S' ? 'selected' : '') + ">Mutation Search</option>" +
+				"<option value='T'" + (gene_test_type == 'T' ? 'selected' : '') + ">Direct Gene Test</option>" +
+				"</select>" +
+				"<p>Result:</p><select class='selectpicker test-result' id='id_" +
+				v.name + "_gene_test_result' name='" +
+				v.name + "_gene_test'>" +
+				"<option value='0'" + (gene_test_result == '0' ? 'selected' : '') + ">No result</option>" +
+				"<option value='P'" + (gene_test_result == 'P' ? 'selected' : '') + ">Positive</option>" +
+				"<option value='N'" + (gene_test_result == 'N' ? 'selected' : '') + ">Negative</option>" +
+				"</select></td></tr>";
+		});
 
 		return genetictests;
 	}

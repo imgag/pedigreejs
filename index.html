@@ -35,7 +35,7 @@
 
 		var DEFAULT_DISEASES = [
 			{ 'type': 'breast_cancer', 'hpo': 'HP:0003002 Breast carcinoma', 'colour': 'darkgrey' },
-			// { 'type': 'breast_cancer2', 'colour': 'darkgrey' },  Removed due to user confusion. If needed later on for better CanRisk prediction simply remove comment
+			{ 'type': 'breast_cancer2', 'hpo': 'HP:0003002 Breast carcinoma contralat.', 'colour': 'darkgrey'},
 			{ 'type': 'pancreatic_cancer', 'hpo': 'HP:0002894 Neoplasm of the pancreas', 'colour': 'darkgrey' },
 			{ 'type': 'ovarian_cancer', 'hpo': 'HP:0100615 Ovarian neoplasm', 'colour': 'darkgrey' },
 			{ 'type': 'prostate_cancer', 'hpo': 'HP:0012125 Prostate cancer', 'colour': 'darkgrey' }
@@ -46,7 +46,15 @@
 			{ 'name': 'brca2', 'explanation': 'This test looks for harmful changes in the BRCA2 gene.' },
 			{ 'name': 'palb2', 'explanation': 'This test looks for mutations that result in loss of function of the corresponding protein of the PALB2 gene.' },
 			{ 'name': 'atm', 'explanation': 'This test looks for a pathogenic mutation in the ATM gene.' },
-			{ 'name': 'check2', 'explanation': 'This test looks for mutations in the CHEK2 gene.' }
+			{ 'name': 'bard1', 'explanation': 'This test looks for a pathogenic mutation in the bard1 gene.' },
+			{ 'name': 'brip1', 'explanation': 'This test looks for mutations in the brip1 gene.' },
+			{ 'name': 'cdh1', 'explanation': 'This test looks for harmful changes in the cdh1 gene.' },
+			{ 'name': 'chek2', 'explanation': 'This test looks for harmful changes in the chek2 gene.' },
+			{ 'name': 'rad51c', 'explanation': 'This test looks for mutations that result in loss of function of the corresponding protein of the rad51c gene.' },
+			{ 'name': 'rad51d', 'explanation': 'This test looks for a pathogenic mutation in the rad51d gene.' },
+			{ 'name': 'stk11', 'explanation': 'This test looks for a pathogenic mutation in the STK11 gene.' },
+			{ 'name': 'tp53', 'explanation': 'This test looks for mutations in the TP53 gene.' },
+
 		];
 
 		var DEFAULT_PATHOLOGY_TESTS = [
@@ -75,6 +83,7 @@
 				'diseases': $.extend(true, [], DEFAULT_DISEASES),
 				'additional_diseases': [],
 				'gene_tests': $.extend(true, [], DEFAULT_GENE_TESTS),
+				'additional_gene_tests': [],
 				'pathology_tests': $.extend(true, [], DEFAULT_PATHOLOGY_TESTS),
 				'DEBUG': (pedigree_util.urlParam('debug') === null ? false : true)
 			};
@@ -96,6 +105,16 @@
 			if (add_dis !== undefined && add_dis !== null) {
 				opts.additional_diseases = JSON.parse(add_dis);
 			}
+			
+			var gen = localStorage.getItem('gene_tests');
+			var add_gen = localStorage.getItem('additional_gene_tests')
+			if (gen !== undefined && gen !== null) {
+				opts.gene_tests = JSON.parse(gen);
+			}
+			if (add_gen !== undefined && add_gen !== null) {
+				opts.additional_gene_tests = JSON.parse(add_gen);
+			}
+
 			opts = ptree.build(opts);
 
 			btn_setup(opts);
@@ -121,6 +140,9 @@
 			<label class="btn btn-default btn-file">
 				<input id="fh_edit_settings" type="button" style="display: none;" />Change Diseases
 			</label>
+			<label class="btn btn-default btn-file">
+				<input id="fh_edit_settings2" type="button" style="display: none;" />Configure Genes
+			</label>
 			<br><br>
 			<label class="btn btn-default btn-file">
 				<input id="saveBOADICEA" type="button" style="display: none;" />Export BOADICEA
@@ -145,6 +167,7 @@
 	<div id="node_properties"></div>
 	<div id="conganguity_info"></div>
 	<div id="fh_settings"></div>
+	<div id="fh_settings2"></div>	
 	<div id="crash_msg"></div>
 	<div id="boadicea-error"></div>
 	<div id="reset_dialog" title="Confirmation Disease Reset"></div>
