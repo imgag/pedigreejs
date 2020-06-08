@@ -64,6 +64,35 @@ var restrict_diagnosis_age = function () {
 }
 
 var autofill = function (d) {
+    // autofill yob if age is given
+    $('#id_age').on('change.autofill', function (e) {
+        if (!this.value == '' && !$('#dead').is(':checked')) {
+            // calc most likely birth year
+            var likely_yob = new Date().getFullYear() - this.value;
+            // set yob value to most likely birth year if no other value is given
+            var cur_yob = $('#id_yob_0').val();
+            // check whether another given value would be conform, if so, don't autofill
+            if (cur_yob == '' || !(likely_yob >= cur_yob && cur_yob >= likely_yob - 1)) {
+                $('#id_yob_0').val(likely_yob);
+            }
+        }
+    });
+
+
+    // autofill age if yob is given
+    $('#id_yob_0').on('change.autofill', function (e) {
+        if (!this.value == '' && !$('#dead').is(':checked')) {
+            // calc most likely birth year
+            var likely_age = new Date().getFullYear() - this.value;
+            // set yob value to most likely birth year if no other value is given
+            var cur_age = $('#id_age').val();
+            // check whether another given value would be conform, if so, don't autofill
+            if (cur_age == '' || !(likely_age >= cur_age && cur_age >= likely_age - 1)) {
+                $('#id_age').val(likely_age);
+            }
+        }
+    });
+
     // block breast cancer 2 if breast cancer is empty
     var bc = $('#id_breast_cancer_diagnosis_age_0');
     var bc2 = $('#id_breast_cancer2_diagnosis_age_0');
