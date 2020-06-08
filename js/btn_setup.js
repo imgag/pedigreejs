@@ -310,6 +310,10 @@ function btn_setup(opts) {
     }
 
     function update_genes() {
+
+        // TODO implement autocomplete based on HGNC-terms here
+        // TODO update style elements so that the dialog is properly displayed
+
         var tab = "<table>";
 
         tab += make_gns_list(opts.gene_tests);
