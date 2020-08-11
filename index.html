@@ -27,7 +27,7 @@
 	<script src="./js/input_validation.js"></script>
 	<!-- TODO update hpo_terms to all HPO-terms -->
 	<!-- TODO add HGNC terms for genes autocomplete -->
-	<script src="./js/hpo_terms.js"></script>
+	<script src="./js/res.js"></script>
 	<script src="./js/btn_setup.js"></script>
 
 	<script type="text/javascript">
@@ -35,14 +35,16 @@
 			return string.charAt(0).toUpperCase() + string.slice(1);
 		}
 
+		// TODO remove HPO terms from disease names
 		var DEFAULT_DISEASES = [
 			{ 'type': 'breast_cancer', 'hpo': 'HP:0003002 Breast carcinoma', 'colour': 'darkgrey' },
-			{ 'type': 'breast_cancer2', 'hpo': 'HP:0003002 Breast carcinoma contralat.', 'colour': 'darkgrey'},
+			{ 'type': 'breast_cancer2', 'hpo': 'HP:0003002 second Breast carcinoma', 'colour': 'darkgrey'},
 			{ 'type': 'pancreatic_cancer', 'hpo': 'HP:0002894 Neoplasm of the pancreas', 'colour': 'darkgrey' },
 			{ 'type': 'ovarian_cancer', 'hpo': 'HP:0100615 Ovarian neoplasm', 'colour': 'darkgrey' },
 			{ 'type': 'prostate_cancer', 'hpo': 'HP:0012125 Prostate cancer', 'colour': 'darkgrey' }
 		];
 
+		// TODO all genes names to upper case
 		var DEFAULT_GENE_TESTS = [
 			{ 'name': 'brca1', 'explanation': 'This test looks for harmful changes in the BRCA1 gene.' },
 			{ 'name': 'brca2', 'explanation': 'This test looks for harmful changes in the BRCA2 gene.' },

@@ -149,9 +149,9 @@ function btn_setup(opts) {
             minLength: 2,
             source: function (request, response) {
                 response(hpo_terms.filter(function (entry) {
-                    return entry['display-name'].toLowerCase().includes(request['term'].toLowerCase());
+                    return entry['HPO_NAME'].toLowerCase().includes(request['term'].toLowerCase());
                 }).map(function (entry) {
-                    return entry['display-name'];
+                    return entry['HPO_NAME'];
                 }).sort());
             }
         });
@@ -342,16 +342,16 @@ function btn_setup(opts) {
         tab += "</table>";
         $('#gene_table').html(tab);
 
-/*        $('#gns_name').autocomplete({
+        $('#gns_name').autocomplete({
             minLength: 3,
            source: function (request, response) {
-                response(hpo_terms.filter(function (entry) {
-                   return entry['sterm'].toLowerCase().includes(request['term'].toLowerCase());
+                response(hgnc_ids.filter(function (entry) {
+                   return entry['APPROVED'].toLowerCase().includes(request['term'].toLowerCase());
                 }).map(function (entry) {
-                    return entry['display-name'];
+                    return entry['APPROVED'];
                 }));
             }
-        }); */
+        });
 
         $("label[id^='delete_gene-']").on("click", function () {
             var this_gene = $(this).attr('id').replace('delete_gene-', '');
