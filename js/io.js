@@ -472,7 +472,7 @@
 	io.boadicea_to_file = function (opts) {
 		var filetext = "BOADICEA import pedigree file format 4.0\n";
 		filetext += "FamID\tName\tTarget\tIndivID\tFathID\tMothID\tSex\tMZtwin\tDead\tAge\tYob" +
-			"\t1stBrCa\t2nBrCa\tOvCa\tProCa\tPanCa" +
+			"\t1stBrCa\t2ndBrCa\tOvCa\tProCa\tPanCa" +
 			"\tAshkn" +
 			"\tBRCA1t\tBRCA1r\tBRCA2t\tBRCA2r\tPALB2t\tPALB2r\tATMt\tATMr\tCHEK2t\tCHEK2r" +
 			"\tER\tPR\tHER2\tCK14\tCK56\n";
