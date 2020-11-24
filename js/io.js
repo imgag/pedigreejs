@@ -495,10 +495,14 @@
 				if (individual[infoID[j]] && individual[infoID[j]] !== "") {
 					if (j == 2) { // checks if individual is proband (saved as true or false, thus no extra checkup needed)
 						nextline += "1\t";
+					} else if (j==4 && individual['noparents'] &&  individual['noparents']==true) {
+						nextline += "0\t";
+					} else if (j==5 && individual['noparents'] &&  individual['noparents']==true) {
+						nextline += "0\t";
 					} else if (j == 6 && individual[infoID[j]] == 'U') { // prevents Default Gender 'Unknown'
 						formatError = true;
 						break;
-					} else if (16 < j && j < 22) { // saves the genetests
+					} else if (j > 16 && j < 22) { // saves the genetests
 						if (individual[infoID[j]]['type'] == "" || individual[infoID[j]]['result'] == "") {
 							nextline += "0\t0\t";
 						} else {
@@ -508,7 +512,7 @@
 						nextline += individual[infoID[j]] + "\t";
 					}
 				} else { // everything that wasn't selected/configured gets default value '0'
-					if (16 < j && j < 22) {
+					if (j > 16 && j < 22) {
 						nextline += "0\t0\t";
 					} else {
 						nextline += "0\t";
